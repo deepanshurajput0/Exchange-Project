@@ -50,3 +50,53 @@ Base asset: “What you want.”
 
 Quote asset: “What you pay with.”
 
+
+### OrderBook
+
+An order book is a real-time list of all buy and sell orders  for a particular asset on an exchange. It shows who wants to buy, who wants to sell, and at what prices**.
+
+---
+
+### Key Components of an Order Book 
+
+1. Bids (Buy Orders)
+
+   * Orders from people who want to **buy** the asset.
+   * Listed with **price and quantity**.
+   * Sorted from **highest price to lowest** — the highest bid is the most someone is willing to pay.
+
+2. Asks (Sell Orders)
+
+   * Orders from people who want to **sell** the asset.
+   * Listed with **price and quantity**.
+   * Sorted from **lowest price to highest** — the lowest ask is the cheapest someone is willing to sell for.
+
+
+
+
+## Analogy 
+
+You buy a coin at $70. Now you own it.
+
+You set a limit sell order at $90. This means you’re telling the exchange:
+“I want to sell my coin, but only at $90 or higher.”
+
+Your sell order goes into the order book, under the asks (sell orders). It sits there waiting for a buyer.
+
+When someone places a buy order at $90 (or higher), the exchange matches it automatically with your sell order.
+
+Once matched, your coin is sold at $90, and the exchange completes the transaction.
+
+✅ Key points:
+
+The matching happens automatically by the exchange engine; you don’t have to do anything.
+
+If no buyer places an order at $90, your order just remains in the order book.
+
+Orders are matched based on price priority first, then time priority (first-come, first-served).
+
+So yes — this is exactly how limit orders work under the hood.
+
+If you want, I can explain why the price doesn’t always match instantly even if the limit exists — that’s where the order book depth and liquidity come into play.
+
+Do you want me to explain that?
