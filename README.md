@@ -28,6 +28,25 @@ Example: BTC is $30,000. You place a limit buy order at $29,500 → it executes 
 4. Cons: Might not execute if the price never reaches your limit. 
 
 
+## Jargons 
 
+## Types of assets 
 
+### Base Asset
+
+1. Definition: The asset you are buying or selling.
+2. Example: In the pair BTC/USD, BTC is the base asset.
+3. Meaning: You’re buying or selling Bitcoin.
+
+### Quote Asset
+
+1. Definition: The asset in which the price of the base asset is quoted.
+2. Example: In the pair BTC/USD, USD is the quote asset.
+3. Meaning: The price of 1 BTC is measured in USD.
+
+Quick Tip
+
+Base asset: “What you want.”
+
+Quote asset: “What you pay with.”
 
