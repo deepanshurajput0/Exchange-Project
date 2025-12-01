@@ -100,3 +100,11 @@ So yes — this is exactly how limit orders work under the hood.
 If you want, I can explain why the price doesn’t always match instantly even if the limit exists — that’s where the order book depth and liquidity come into play.
 
 Do you want me to explain that?
+
+
+
+## Trade in Exchange platform by Market Order
+
+<img width="1391" height="781" alt="Screenshot 2025-09-14 211134" src="https://github.com/user-attachments/assets/68c57dcd-2ec8-498b-b0bc-b5ce38d68fa8" />
+ 
+
