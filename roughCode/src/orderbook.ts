@@ -30,3 +30,8 @@ export const orderBook:OrderBook = {
 
 
 
+export const bookWithQuantity:{asks:{[price:number]:number},bids:{[price:number]:number}} ={
+    bids:{},
+    asks:{}
+}
+
