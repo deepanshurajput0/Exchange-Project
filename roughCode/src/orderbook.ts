@@ -1,7 +1,7 @@
 interface Order {
     price:number,
     quantity:number,
-    orderId:number
+    orderId:string
 }
 
 interface Bids extends Order{
@@ -19,7 +19,7 @@ interface OrderBook {
     asks:Asks[]
 }
 
-export const orderBook:OrderBook = {
+export const orderbook:OrderBook = {
    bids:[
 
    ],

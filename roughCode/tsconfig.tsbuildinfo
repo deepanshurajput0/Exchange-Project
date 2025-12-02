@@ -1,1 +1,1 @@
-{"root":["./src/index.ts"],"version":"5.9.3"}
+{"root":["./src/index.ts","./src/orderbook.ts","./src/redisclient.ts","./src/types.ts"],"version":"5.9.3"}
