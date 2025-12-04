@@ -1,6 +1,6 @@
 import express from "express";
 import { OrderInputSchema } from "./types.js";
-import { orderbook, bookWithQuantity } from "./orderbook.js";
+import { orderbook, bookWithQuantity } from "./orderbook.js"
 
 const BASE_ASSET = 'BTC' ;
 const QUOTE_ASSET = 'USD';
@@ -26,16 +26,13 @@ app.post('/api/v1/order', (req, res) => {
   }
 
   const { executedQty, fills } = fillOrder(orderId, price, quantity, side, kind);
-   
+
   res.send({
     orderId,
     executedQty,
     fills
   });
 });
-
-
-console.log(orderbook)
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
@@ -66,7 +63,7 @@ function fillOrder(orderId: string, price: number, quantity: number, side: "buy"
         orderbook.asks.forEach(o => {
             if (o.price <= price && quantity > 0) {
                 const filledQuantity = Math.min(quantity, o.quantity);
-                o.quantity -= filledQuantity;
+                o.quantity = o.quantity - filledQuantity;
                 bookWithQuantity.asks[o.price] = (bookWithQuantity.asks[o.price] || 0) - filledQuantity;
                 fills.push({
                     price: o.price,
@@ -94,7 +91,6 @@ function fillOrder(orderId: string, price: number, quantity: number, side: "buy"
             });
             bookWithQuantity.bids[price] = (bookWithQuantity.bids[price] || 0) + (quantity - executedQty);
         }
-        // console.log("orderbook",orderbook)
     } else {
         orderbook.bids.forEach(o => {
             if (o.price >= price && quantity > 0) {
@@ -128,9 +124,10 @@ function fillOrder(orderId: string, price: number, quantity: number, side: "buy"
             bookWithQuantity.asks[price] = (bookWithQuantity.asks[price] || 0) + (quantity);
         }
     }
+   
+    console.log("orderbook",orderbook)
+    console.log("BookswithQuantity",bookWithQuantity)
 
-   console.log("orderbook",orderbook)
-   console.log("bookswithQuantity",bookWithQuantity)
     return {
         status: 'accepted',
         executedQty,

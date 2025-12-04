@@ -25,7 +25,6 @@ app.post('/api/v1/order', (req, res) => {
         fills
     });
 });
-console.log(orderbook);
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
@@ -44,7 +43,7 @@ function fillOrder(orderId, price, quantity, side, type) {
         orderbook.asks.forEach(o => {
             if (o.price <= price && quantity > 0) {
                 const filledQuantity = Math.min(quantity, o.quantity);
-                o.quantity -= filledQuantity;
+                o.quantity = o.quantity - filledQuantity;
                 bookWithQuantity.asks[o.price] = (bookWithQuantity.asks[o.price] || 0) - filledQuantity;
                 fills.push({
                     price: o.price,
@@ -71,7 +70,6 @@ function fillOrder(orderId, price, quantity, side, type) {
             });
             bookWithQuantity.bids[price] = (bookWithQuantity.bids[price] || 0) + (quantity - executedQty);
         }
-        // console.log("orderbook",orderbook)
     }
     else {
         orderbook.bids.forEach(o => {
@@ -106,7 +104,7 @@ function fillOrder(orderId, price, quantity, side, type) {
         }
     }
     console.log("orderbook", orderbook);
-    console.log("bookswithQuantity", bookWithQuantity);
+    console.log("BookswithQuantity", bookWithQuantity);
     return {
         status: 'accepted',
         executedQty,
