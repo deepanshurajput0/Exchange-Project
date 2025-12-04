@@ -66,11 +66,12 @@ function fillOrder(orderId, price, quantity, side, type) {
             orderbook.bids.push({
                 price,
                 quantity: quantity - executedQty,
-                side: 'buy',
+                side: 'bid',
                 orderId
             });
             bookWithQuantity.bids[price] = (bookWithQuantity.bids[price] || 0) + (quantity - executedQty);
         }
+        // console.log("orderbook",orderbook)
     }
     else {
         orderbook.bids.forEach(o => {
@@ -98,12 +99,14 @@ function fillOrder(orderId, price, quantity, side, type) {
             orderbook.asks.push({
                 price,
                 quantity: quantity,
-                side: 'sell',
+                side: 'ask',
                 orderId
             });
             bookWithQuantity.asks[price] = (bookWithQuantity.asks[price] || 0) + (quantity);
         }
     }
+    console.log("orderbook", orderbook);
+    console.log("bookswithQuantity", bookWithQuantity);
     return {
         status: 'accepted',
         executedQty,

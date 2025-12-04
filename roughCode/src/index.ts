@@ -26,7 +26,7 @@ app.post('/api/v1/order', (req, res) => {
   }
 
   const { executedQty, fills } = fillOrder(orderId, price, quantity, side, kind);
-
+   
   res.send({
     orderId,
     executedQty,
@@ -89,11 +89,12 @@ function fillOrder(orderId: string, price: number, quantity: number, side: "buy"
             orderbook.bids.push({
                 price,
                 quantity: quantity - executedQty,
-                side: 'buy',
+                side: 'bid',
                 orderId
             });
             bookWithQuantity.bids[price] = (bookWithQuantity.bids[price] || 0) + (quantity - executedQty);
         }
+        // console.log("orderbook",orderbook)
     } else {
         orderbook.bids.forEach(o => {
             if (o.price >= price && quantity > 0) {
@@ -121,14 +122,15 @@ function fillOrder(orderId: string, price: number, quantity: number, side: "buy"
             orderbook.asks.push({
                 price,
                 quantity: quantity,
-                side: 'sell',
+                side: 'ask',
                 orderId
             });
             bookWithQuantity.asks[price] = (bookWithQuantity.asks[price] || 0) + (quantity);
         }
     }
 
-
+   console.log("orderbook",orderbook)
+   console.log("bookswithQuantity",bookWithQuantity)
     return {
         status: 'accepted',
         executedQty,

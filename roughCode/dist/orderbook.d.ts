@@ -4,10 +4,10 @@ interface Order {
     orderId: string;
 }
 interface Bids extends Order {
-    side: 'buy';
+    side: 'bid';
 }
 interface Asks extends Order {
-    side: 'sell';
+    side: 'ask';
 }
 interface OrderBook {
     bids: Bids[];

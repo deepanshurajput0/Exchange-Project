@@ -5,11 +5,11 @@ interface Order {
 }
 
 interface Bids extends Order{
-    side:'buy'
+    side:'bid'
 }
 
 interface Asks extends Order{
-    side:'sell'
+    side:'ask'
 }
 
 
