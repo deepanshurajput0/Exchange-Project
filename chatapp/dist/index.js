@@ -1,5 +1,10 @@
 import { WebSocketServer, WebSocket } from 'ws';
+import { createClient } from 'redis';
 const wss = new WebSocketServer({ port: 8080 });
+const publishClient = createClient();
+publishClient.connect();
+const subscriberClient = createClient();
+subscriberClient.connect();
 const subscriptions = {};
 // "userId":"{
 // ws:"",
@@ -8,7 +13,9 @@ const subscriptions = {};
 //   roomId1,        
 // ]
 // }"
-console.log(subscriptions);
+setInterval(() => {
+    console.log(subscriptions);
+}, 5000);
 wss.on('connection', function connection(userSocket) {
     const id = randomId();
     subscriptions[id] = {
@@ -19,22 +26,65 @@ wss.on('connection', function connection(userSocket) {
         const parseMsg = JSON.parse(data);
         if (parseMsg.type === "SUBSCRIBE") {
             subscriptions[id]?.rooms.push(parseMsg.room);
+            if (oneUserSubscribedTo(parseMsg.room)) {
+                console.log("subscribing on the pub sub to room " + parseMsg.room);
+                subscriberClient.subscribe(parseMsg.room, (message) => {
+                    const parsedMessage = JSON.parse(message);
+                    Object.keys(subscriptions).forEach((userId) => {
+                        const subs = subscriptions[userId];
+                        if (!subs) {
+                            return;
+                        }
+                        const { ws, rooms } = subs;
+                        if (rooms.includes(parseMsg.roomId)) {
+                            ws.send(parseMsg.message);
+                        }
+                    });
+                });
+            }
+        }
+        if (parseMsg.type === "UNSUBSCRIBE") {
+            // @ts-ignore
+            subscriptions[id]?.rooms = subscriptions[id]?.rooms.filter(x => x !== parseMsg.room);
+            if (lastPersonLeftRoom(parseMsg.room)) {
+                console.log("unsubscribing from pub sub on room" + parseMsg.room);
+                subscriberClient.unsubscribe(parseMsg.room);
+            }
         }
         if (parseMsg.type === "sendMessage") {
             const message = parseMsg.message;
             const roomId = parseMsg.roomId;
-            Object.keys(subscriptions).forEach((userId) => {
-                const sub = subscriptions[userId];
-                if (!sub)
-                    return;
-                const { ws, rooms } = sub;
-                if (rooms.includes(roomId)) {
-                    ws.send(message);
-                }
-            });
+            publishClient.publish(roomId, JSON.stringify({
+                type: 'sendMessage',
+                roomId: roomId,
+                message
+            }));
         }
     });
 });
+function oneUserSubscribedTo(roomId) {
+    let totalInterestedPeople = 0;
+    Object.keys(subscriptions).forEach(userId => {
+        if (subscriptions[userId]?.rooms.includes(userId))
+            totalInterestedPeople = totalInterestedPeople + 1;
+    });
+    if (totalInterestedPeople = 1) {
+        return true;
+    }
+    return false;
+}
+function lastPersonLeftRoom(roomId) {
+    let totalInterestedPeople = 0;
+    Object.keys(subscriptions).map(userId => {
+        if (subscriptions[userId]?.rooms.includes(roomId)) {
+            totalInterestedPeople++;
+        }
+    });
+    if (totalInterestedPeople == 0) {
+        return true;
+    }
+    return false;
+}
 function randomId() {
     return Math.random();
 }

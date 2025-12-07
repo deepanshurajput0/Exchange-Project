@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc -b",
-    "dev":"node ./dist/index.js"
+    "dev": "node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "redis": "^5.10.0",
     "typescript": "^5.9.3",
     "ws": "^8.18.3"
   },
