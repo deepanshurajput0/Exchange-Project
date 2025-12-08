@@ -23,10 +23,6 @@ const subscriptions:{[key:string]:{
    // ]
 // }"
 
-setInterval(()=>{
-   console.log(subscriptions)
-},5000)
-
 
 wss.on('connection',function connection(userSocket){
     const id =  randomId()
@@ -41,31 +37,25 @@ wss.on('connection',function connection(userSocket){
            if(oneUserSubscribedTo(parseMsg.room)){
                console.log("subscribing on the pub sub to room " + parseMsg.room);
                subscriberClient.subscribe(parseMsg.room,(message)=>{
-                  const parsedMessage = JSON.parse(message as string)
-                  Object.keys(subscriptions).forEach((userId)=>{
-                     const subs = subscriptions[userId]
-                     if(!subs){
-                       return;
-                     }
-                     const { ws, rooms } = subs
-                     if(rooms.includes(parseMsg.roomId)){
-                        ws.send(parseMsg.message)
-                     }
-
-                  })
+                  const parsedMessage = JSON.parse(message)
+                   Object.values(subscriptions).forEach(({ws, rooms}) => {
+        if (rooms.includes(parsedMessage.roomId)) {
+            ws.send(parsedMessage.message)
+        }
+    })
                })
            }
 
       } 
 
-         if (parseMsg.type === "UNSUBSCRIBE") {
-            // @ts-ignore
-            subscriptions[id]?.rooms = subscriptions[id]?.rooms.filter(x => x !== parseMsg.room)
-            if (lastPersonLeftRoom(parseMsg.room)) {
-                console.log("unsubscribing from pub sub on room" + parseMsg.room);
-                subscriberClient.unsubscribe(parseMsg.room);
-            }
-        }
+      //    if (parseMsg.type === "UNSUBSCRIBE") {
+            
+      //       subscriptions[id]?.rooms = subscriptions[id]?.rooms.filter(x => x !== parseMsg.room)
+      //       if (lastPersonLeftRoom(parseMsg.room)) {
+      //           console.log("unsubscribing from pub sub on room" + parseMsg.room);
+      //           subscriberClient.unsubscribe(parseMsg.room);
+      //       }
+      //   }
       if(parseMsg.type === "sendMessage"){
          const message = parseMsg.message
          const roomId = parseMsg.roomId 
@@ -81,11 +71,11 @@ wss.on('connection',function connection(userSocket){
 
 function oneUserSubscribedTo(roomId:string){
    let totalInterestedPeople = 0;
-   Object.keys(subscriptions).forEach(userId=>{
-      if(subscriptions[userId]?.rooms.includes(userId))
-         totalInterestedPeople = totalInterestedPeople + 1
+   Object.keys(subscriptions).map(userId=>{
+      if(subscriptions[userId]?.rooms.includes(roomId))
+         totalInterestedPeople++
    })
-   if(totalInterestedPeople = 1){
+   if(totalInterestedPeople === 1){
       return true;
    }
    return false
@@ -98,7 +88,7 @@ function lastPersonLeftRoom(roomId: string) {
             totalInterestedPeople++;
         }
     })
-    if (totalInterestedPeople == 0) {
+    if (totalInterestedPeople === 0) {
         return true;
     }
     return false;
