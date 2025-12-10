@@ -5,7 +5,7 @@ export declare const GET_OPEN_ORDERS = "GET_OPEN_ORDERS";
 export declare const GET_DEPTH = "GET_DEPTH";
 export type MessageFromOrderbook = {
     type: "DEPTH";
-    data: {
+    payload: {
         market: string;
         bids: [string, string][];
         asks: [string, string][];

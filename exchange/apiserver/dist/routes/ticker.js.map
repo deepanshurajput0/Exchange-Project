@@ -1,0 +1,1 @@
+{"version":3,"file":"ticker.js","sourceRoot":"","sources":["../../src/routes/ticker.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AAEjC,MAAM,CAAC,MAAM,aAAa,GAAG,MAAM,EAAE,CAAC;AAEtC,aAAa,CAAC,GAAG,CAAC,GAAG,EAAE,KAAK,EAAE,GAAG,EAAE,GAAG,EAAE,EAAE;IACtC,GAAG,CAAC,IAAI,CAAC,EAAE,CAAC,CAAC;AACjB,CAAC,CAAC,CAAC"}

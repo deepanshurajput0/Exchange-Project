@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/redismanager.ts","./src/types/index.ts","./src/types/to.ts"],"version":"5.9.3"}
+{"root":["./src/index.ts","./src/redismanager.ts","./src/routes/depth.ts","./src/routes/kline.ts","./src/routes/order.ts","./src/routes/ticker.ts","./src/routes/trade.ts","./src/types/index.ts","./src/types/to.ts"],"version":"5.9.3"}

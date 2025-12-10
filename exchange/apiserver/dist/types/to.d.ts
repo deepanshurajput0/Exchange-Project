@@ -12,7 +12,7 @@ export type MessageToEngine = {
     type: typeof CANCEL_ORDER;
     data: {
         orderId: string;
-        marketId: string;
+        market: string;
     };
 } | {
     type: typeof ON_RAMP;
