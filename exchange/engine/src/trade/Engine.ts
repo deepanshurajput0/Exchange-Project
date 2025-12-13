@@ -15,7 +15,7 @@ interface UserBalance {
 
 export class Engine {
     orderbook:Orderbook[] = []
-    private balance:Map<string,string> = new Map()
+    private balances:Map<string,string> = new Map()
 
 
 
@@ -45,13 +45,67 @@ export class Engine {
     }
     checkAndLockFunds(baseAsset:string,quoteAsset:string,side:"buy"|"side",userId:string,price:string,quantity:string){
        if(side === 'buy'){
-        if((this.balance.get(userId).[quoteAsset].available || 0) < Number(quantity) * Number(price))
+        if((this.balances.get(userId).[quoteAsset].available || 0) < Number(quantity) * Number(price)){
             throw new Error("insufficient funds")
-       }
-       this.balance.get(userId).[quoteAsset].available = this.balance.get(userId)?.[quoteAsset].available - (Number(quantity) * Number(price))
+        }
+        this.balances.get(userId).[quoteAsset].available = this.balances.get(userId)?.[quoteAsset].available - (Number(quantity) * Number(price))
        
        this.balances.get(userId)[quoteAsset].locked = this.balances.get(userId)?.[quoteAsset].locked + (Number(quantity) * Number(price));
-       
+       }else{
+        if((this.balances.get(userId)[quoteAsset].available) || 0 < Number(quantity)){
+            throw new Error("Insufficient funds")
+        }
+        this.balances.get(userId)[baseAsset]  =  this.balances.get(userId)?.[baseAsset].available - (Number(quantity));
+        this.balances.get(userId)[quoteAsset] = this.balances.get(userId)?.[quoteAsset].locked =  this.balances.get(userId)?.[baseAsset].locked +(Number(quantity));
+       }
+    }
+    onRamp(userId:string,amount:number){
+      const userBalance = this.balances.get(userId)
+      if(!userBalance){
+        this.balances.set(userId,{
+            [BASE_CURRENCY]:{
+                available:amount,
+                locked:0
+            }
+        });
+      }else{
+        userBalance[BASE_CURRENCY].available+=amount
+      }
+    },
+
+    setBaseBalances(){
+        this.balances.set("1",{
+            [BASE_CURRENCY]:{
+                available:10000000,
+                locked:0,
+            },
+            "TATA":{
+                available:10000000,
+                locked:0
+            }
+        })
+
+             this.balances.set("2", {
+            [BASE_CURRENCY]: {
+                available: 10000000,
+                locked: 0
+            },
+            "TATA": {
+                available: 10000000,
+                locked: 0
+            }
+        });
+
+        this.balances.set("5", {
+            [BASE_CURRENCY]: {
+                available: 10000000,
+                locked: 0
+            },
+            "TATA": {
+                available: 10000000,
+                locked: 0
+            }
+        });
     }
 }
 
