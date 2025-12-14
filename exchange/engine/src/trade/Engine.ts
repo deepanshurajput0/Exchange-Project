@@ -1,7 +1,7 @@
 import { RedisManager } from "../RedisManager.js";
 import { ORDER_UPDATE, TRADE_ADDED } from "../types/index.js";
 import { CANCEL_ORDER, CREATE_ORDER, GET_DEPTH, GET_OPEN_ORDERS,MessageFromApi,ON_RAMP } from "../types/fromApi.js";
-import type { Order, Orderbook } from "./OrderBook.js";
+import type { Fill, Order, Orderbook } from "./OrderBook.js";
 
 export const BASE_CURRENCY = 'INR'
 
@@ -138,6 +138,9 @@ export class Engine {
         }
     }
 
+    addOrderBook(orderbook:Orderbook){
+     this.orderbook.push(orderbook) 
+    }
 
     createOrder(market:string,price:string,quantity:string,side:"buy"|"sell",userId:string){
        const orderbook = this.orderbook.find(o=>o.ticker()==market)
@@ -167,6 +170,30 @@ export class Engine {
         return { executedQty, fills, orderId: order.orderId };
 
     }
+    updateDbOrder(order:Order,executedQty:number,fills:Fill[],market:string){
+      RedisManager.getInstance().pushMessage({
+        type:'ORDER_UPDATE',
+        data:{
+            orderId: order.orderId,
+            executedQty: executedQty,
+            market: market,
+            price: order.price.toString(),
+            quantity: order.quantity.toString(),
+            side:order.side
+        }
+      })
+      fills.forEach(fill=>{
+        RedisManager.getInstance().pushMessage({
+            type:ORDER_UPDATE,
+            data:{
+                orderId:fill.markerOrderId,
+                executedQty:fill.qty
+            }
+        })
+      })
+    }
+
+    
     checkAndLockFunds(baseAsset:string,quoteAsset:string,side:"buy"|"side",userId:string,price:string,quantity:string){
        if(side === 'buy'){
         if((this.balances.get(userId).[quoteAsset].available || 0) < Number(quantity) * Number(price)){
