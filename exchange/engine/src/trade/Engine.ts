@@ -90,6 +90,51 @@ export class Engine {
                      console.log("Error hwile cancelling order", );
                     console.log(error)
                 }
+                break;
+                case GET_OPEN_ORDERS : 
+                try {
+                      const openOrderbook = this.orderbook.find(o => o.ticker() === message.data.market);
+                    if (!openOrderbook) {
+                        throw new Error("No orderbook found");
+                    }
+                    const openOrders = openOrderbook.getOpenOrders(message.data.userId);
+
+                    RedisManager.getInstance().sendToApi(clientId, {
+                        type: "OPEN_ORDERS",
+                        payload: openOrders
+                    }); 
+                } catch (error) {
+                    console.log(error);
+                }
+                break;
+                case ON_RAMP:
+                const userId = message.data.userId,
+                const amount = Number(message.data.amount)
+                this.onRamp(userId,amount)
+                break;
+                case GET_DEPTH:
+                    try {
+                        const market = message.data.market
+                        const orderbook = this.orderbook.find(o=>o.ticker()===market)
+                        if(!orderbook){
+                          throw new Error("New Orderbook found")
+                        }
+                        RedisManager.getInstance().sendToApi(clientId,{
+                            type:'DEPTH',
+                            payload: orderbook.getDepth()
+                        })
+ 
+                    } catch (error) {
+                        console.log(error)
+                        RedisManager.getInstance().sendToApi(clientId,{
+                            type:'DEPTH',
+                            payload:{
+                                bids:[],
+                                asks:[]
+                            }
+                        })
+                    } 
+                    break;
         }
     }
 
