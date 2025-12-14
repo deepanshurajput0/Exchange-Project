@@ -193,7 +193,54 @@ export class Engine {
       })
     }
 
-    
+    createDbTrades (fills:Fill[],market:string,userId:string){
+      fills.forEach(fill=>{
+        RedisManager.getInstance().pushMessage({
+            type:'TRADE_ADDED',
+            data:{
+                market:market,
+                id:fill.tradeId.toString(),
+                isBuyerMaker: fill.otherUserId === userId,
+                price:fill.price,
+                quantity:fill.qty.toString(),
+                quoteQuantity: (fill.qty * Number(fill.price)).toString(),
+                timestamp:Date.now()
+            }
+        })
+      })
+    }
+
+     publishWsTrades(fills: Fill[], userId: string, market: string) {
+        fills.forEach(fill => {
+            RedisManager.getInstance().publishMessage(`trade@${market}`, {
+                stream: `trade@${market}`,
+                data: {
+                    e: "trade",
+                    t: fill.tradeId,
+                    m: fill.otherUserId === userId, 
+                    p: fill.price,
+                    q: fill.qty.toString(),
+                    s: market,
+                }
+            });
+        });
+    }
+
+    sendUpdatedDepthAt(price:string,market:string){
+      const orderbook = this.orderbook.find(o=>o.ticker()===market)
+      if(!orderbook){
+        return;
+      }
+       const depth = orderbook.getDepth();
+       const updatedBids = depth?.bids.filter(x => x[0] === price);
+       const updatedAsks = depth?.asks.filter(x => x[0] === price);
+        RedisManager.getInstance().publishMessage(`depth@${market}`,{
+            stream:`depth@${market}`
+        })
+
+    }
+
+
     checkAndLockFunds(baseAsset:string,quoteAsset:string,side:"buy"|"side",userId:string,price:string,quantity:string){
        if(side === 'buy'){
         if((this.balances.get(userId).[quoteAsset].available || 0) < Number(quantity) * Number(price)){
