@@ -91,6 +91,7 @@ export class Engine {
                     console.log(error)
                 }
                 break;
+                // it shows that kind of orders which neither be placed nor be canceled 
                 case GET_OPEN_ORDERS : 
                 try {
                       const openOrderbook = this.orderbook.find(o => o.ticker() === message.data.market);
@@ -108,7 +109,7 @@ export class Engine {
                 }
                 break;
                 case ON_RAMP:
-                const userId = message.data.userId,
+                const userId = message.data.userId;
                 const amount = Number(message.data.amount)
                 this.onRamp(userId,amount)
                 break;
@@ -235,12 +236,18 @@ export class Engine {
        const updatedBids = depth?.bids.filter(x => x[0] === price);
        const updatedAsks = depth?.asks.filter(x => x[0] === price);
         RedisManager.getInstance().publishMessage(`depth@${market}`,{
-            stream:`depth@${market}`
+            stream:`depth@${market}`,
+            data:{
+                a: updatedAsks.length ? updatedAsks : [[price,"0"]],
+                b: updatedBids.length ? updatedBids : [[price,"0"]],
+                e: "depth"
+            }
         })
 
     }
 
-
+    
+    
     checkAndLockFunds(baseAsset:string,quoteAsset:string,side:"buy"|"side",userId:string,price:string,quantity:string){
        if(side === 'buy'){
         if((this.balances.get(userId).[quoteAsset].available || 0) < Number(quantity) * Number(price)){
@@ -257,6 +264,8 @@ export class Engine {
         this.balances.get(userId)[quoteAsset] = this.balances.get(userId)?.[quoteAsset].locked =  this.balances.get(userId)?.[baseAsset].locked +(Number(quantity));
        }
     }
+
+    // it will show current balances 
     onRamp(userId:string,amount:number){
       const userBalance = this.balances.get(userId)
       if(!userBalance){
@@ -270,6 +279,8 @@ export class Engine {
         userBalance[BASE_CURRENCY].available+=amount
       }
     }
+
+
 
     setBaseBalances(){
         this.balances.set("1",{
