@@ -108,6 +108,7 @@ export class Engine {
                     console.log(error);
                 }
                 break;
+                // it will show current user balance 
                 case ON_RAMP:
                 const userId = message.data.userId;
                 const amount = Number(message.data.amount)
@@ -142,7 +143,7 @@ export class Engine {
     addOrderBook(orderbook:Orderbook){
      this.orderbook.push(orderbook) 
     }
-
+// it will create order 
     createOrder(market:string,price:string,quantity:string,side:"buy"|"sell",userId:string){
        const orderbook = this.orderbook.find(o=>o.ticker()==market)
        const baseAsset = market.split('_')[0]
@@ -185,7 +186,7 @@ export class Engine {
       })
       fills.forEach(fill=>{
         RedisManager.getInstance().pushMessage({
-            type:ORDER_UPDATE,
+            type:'ORDER_UPDATE',
             data:{
                 orderId:fill.markerOrderId,
                 executedQty:fill.qty
@@ -226,6 +227,10 @@ export class Engine {
             });
         });
     }
+
+//     If an order is placed, matched (executed), or canceled, then update the bids/asks at that price.
+// If no orders remain at that price, publish that price with quantity 0.
+// Then publish this update to Redis.
 
     sendUpdatedDepthAt(price:string,market:string){
       const orderbook = this.orderbook.find(o=>o.ticker()===market)

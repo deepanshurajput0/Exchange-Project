@@ -148,6 +148,15 @@ export class Orderbook {
         const bids: [string, string][] = [];
         const asks: [string, string][] = [];
 
+
+        // const bidsObj:{[key:string]:number} = {}
+
+        // bidsObj["price"] = 200;
+
+        // console.log(bidsObj)
+
+        // Its simple Object 
+
         const bidsObj: {[key: string]: number} = {};
         const asksObj: {[key: string]: number} = {};
 
