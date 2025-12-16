@@ -1,7 +1,7 @@
 import { createClient } from 'redis'
 
 async function main(){
-    const engine = ''
+    const engine = 
     const redisClient = createClient()
     await redisClient.connect()
     console.log('connected to redis')
@@ -14,3 +14,7 @@ async function main(){
         }        
     }
 }
+
+main()
+
+

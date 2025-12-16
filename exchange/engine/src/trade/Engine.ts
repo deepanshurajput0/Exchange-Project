@@ -172,7 +172,7 @@ export class Engine {
         return { executedQty, fills, orderId: order.orderId };
 
     }
-    updateDbOrder(order:Order,executedQty:number,fills:Fill[],market:string){
+    updateDbOrders(order:Order,executedQty:number,fills:Fill[],market:string){
       RedisManager.getInstance().pushMessage({
         type:'ORDER_UPDATE',
         data:{
@@ -251,8 +251,47 @@ export class Engine {
 
     }
 
-    
-    
+     updateBalance(userId: string, baseAsset: string, quoteAsset: string, side: "buy" | "sell", fills: Fill[], executedQty: number) {
+        if (side === "buy") {
+            fills.forEach(fill => {
+                // Update quote asset balance
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[quoteAsset].available = this.balances.get(fill.otherUserId)?.[quoteAsset].available + (fill.qty * fill.price);
+
+                //@ts-ignore
+                this.balances.get(userId)[quoteAsset].locked = this.balances.get(userId)?.[quoteAsset].locked - (fill.qty * fill.price);
+
+                // Update base asset balance
+
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[baseAsset].locked = this.balances.get(fill.otherUserId)?.[baseAsset].locked - fill.qty;
+
+                //@ts-ignore
+                this.balances.get(userId)[baseAsset].available = this.balances.get(userId)?.[baseAsset].available + fill.qty;
+
+            });
+            
+        } else {
+            fills.forEach(fill => {
+                // Update quote asset balance
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[quoteAsset].locked = this.balances.get(fill.otherUserId)?.[quoteAsset].locked - (fill.qty * fill.price);
+
+                //@ts-ignore
+                this.balances.get(userId)[quoteAsset].available = this.balances.get(userId)?.[quoteAsset].available + (fill.qty * fill.price);
+
+                // Update base asset balance
+
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[baseAsset].available = this.balances.get(fill.otherUserId)?.[baseAsset].available + fill.qty;
+
+                //@ts-ignore
+                this.balances.get(userId)[baseAsset].locked = this.balances.get(userId)?.[baseAsset].locked - (fill.qty);
+
+            });
+        }
+    }
+
     checkAndLockFunds(baseAsset:string,quoteAsset:string,side:"buy"|"side",userId:string,price:string,quantity:string){
        if(side === 'buy'){
         if((this.balances.get(userId).[quoteAsset].available || 0) < Number(quantity) * Number(price)){
