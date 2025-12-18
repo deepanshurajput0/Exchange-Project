@@ -26,6 +26,7 @@ export class SignalingManager {
     }
 
     init() {
+        // whenever websocket connection is established or opened
         this.ws.onopen = () => {
             this.initialized = true;
             this.bufferedMessages.forEach(message => {
@@ -33,6 +34,7 @@ export class SignalingManager {
             });
             this.bufferedMessages = [];
         }
+        // whenever the WebSocket receives a message from the server.
         this.ws.onmessage = (event) => {
             const message = JSON.parse(event.data);
             const type = message.data.e;
@@ -97,3 +99,5 @@ export class SignalingManager {
         }
     }
 }
+
+

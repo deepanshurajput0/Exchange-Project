@@ -15,6 +15,12 @@ export function TradeView({
     const init = async () => {
       let klineData: KLine[] = [];
       try {
+        new Date().getTime() - 604800000
+
+// Subtracting 7 days from current time
+// Result = time exactly 7 days ago (still in milliseconds)
+// Converts milliseconds → seconds
+
         klineData = await getKlines(market, "1h", Math.floor((new Date().getTime() - 1000 * 60 * 60 * 24 * 7) / 1000), Math.floor(new Date().getTime() / 1000)); 
       } catch (e) { }
 
