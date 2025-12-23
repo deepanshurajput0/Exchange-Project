@@ -1,5 +1,6 @@
 import type{ RedisClientType } from 'redis'
 import { createClient } from 'redis';
+import { UserManager } from './UserManager.js';
 export class SubscriptionManager {
     private static instance: SubscriptionManager;
     private subscriptions:Map<string,string[]> = new Map();

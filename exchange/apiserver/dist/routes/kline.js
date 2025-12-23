@@ -6,7 +6,7 @@ const pgClient = new Client({
     host: 'localhost',
     database: 'my_database',
     password: 'your_password',
-    port: 5432,
+    port: 5433,
 });
 pgClient.connect();
 export const klineRouter = Router();
