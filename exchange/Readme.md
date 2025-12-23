@@ -1,17 +1,17 @@
-Client connects
+Client connects  
 ↓
-UserManager creates User
+UserManager creates User  
 ↓
-User sends SUBSCRIBE via WebSocket
+User sends SUBSCRIBE via WebSocket  
 ↓
-SubscriptionManager subscribes user
+SubscriptionManager subscribes user  
 ↓
-Redis subscribes to channel (only once)
+Redis subscribes to channel (only once)  
 ↓
-Redis publishes message
+Redis publishes message  
 ↓
-SubscriptionManager receives message
+SubscriptionManager receives message  
 ↓
-UserManager finds users
+UserManager finds users  
 ↓
-WebSocket sends message to clients
+WebSocket sends message to clients  
