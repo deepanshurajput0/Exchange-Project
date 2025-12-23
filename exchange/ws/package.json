@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@types/ws": "^8.18.1",
+    "redis": "^5.10.0",
     "typescript": "^5.9.3",
     "ws": "^8.18.3"
   }
