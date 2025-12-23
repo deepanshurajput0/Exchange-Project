@@ -68,7 +68,7 @@ wss.on('connection',function connection(userSocket){
      })
 })
 
-
+// atleast first person is subscribed to room1 then you don't need to re subscribe it 
 function oneUserSubscribedTo(roomId:string){
    let totalInterestedPeople = 0;
    Object.keys(subscriptions).map(userId=>{
