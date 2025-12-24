@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc -b",
     "start": "node ./dist/index.js",
-    "dev":"npm run build && npm run start"
+    "dev": "npm run build && npm run start"
   },
   "keywords": [],
   "author": "",
@@ -15,9 +15,13 @@
   "dependencies": {
     "@types/express": "^5.0.6",
     "@types/pg": "^8.15.6",
+    "cors": "^2.8.5",
     "express": "^5.2.1",
     "pg": "^8.16.3",
     "redis": "^5.10.0",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19"
   }
 }

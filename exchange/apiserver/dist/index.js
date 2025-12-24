@@ -4,8 +4,13 @@ import { depthRouter } from "./routes/depth.js";
 import { tradesRouter } from "./routes/trade.js";
 import { klineRouter } from "./routes/kline.js";
 import { tickersRouter } from "./routes/ticker.js";
+import cors from 'cors';
 const app = express();
 const PORT = 3000;
+app.use(cors({
+    origin: 'http://localhost:3002',
+    credentials: true
+}));
 app.use(express.json());
 app.use("/api/v1/order", orderRouter);
 app.use("/api/v1/depth", depthRouter);
