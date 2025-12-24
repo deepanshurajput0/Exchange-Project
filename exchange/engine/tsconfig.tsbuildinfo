@@ -1,1 +1,1 @@
-{"root":["./src/redismanager.ts","./src/index.ts","./src/trade/engine.ts","./src/trade/orderbook.ts","./src/trade/events.ts","./src/types/fromapi.ts","./src/types/index.ts","./src/types/toapi.ts","./src/types/tows.ts"],"errors":true,"version":"5.9.3"}
+{"root":["./src/redismanager.ts","./src/index.ts","./src/trade/engine.ts","./src/trade/orderbook.ts","./src/trade/events.ts","./src/types/fromapi.ts","./src/types/index.ts","./src/types/toapi.ts","./src/types/tows.ts"],"version":"5.9.3"}

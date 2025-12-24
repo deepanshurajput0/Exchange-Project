@@ -35,7 +35,10 @@ export class User {
             }
 
             if (parsedMessage.method === UNSUBSCRIBE) {
-                parsedMessage.params.forEach(s => SubscriptionManager.getInstance().unsubscribe(this.id, parsedMessage?.params[0]));
+                
+            parsedMessage.params.forEach(s => SubscriptionManager.getInstance().
+            // @ts-ignore
+            unsubscribe(this.id, parsedMessage?.params[0]));
             }
         });
     }

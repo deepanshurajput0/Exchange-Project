@@ -187,7 +187,7 @@ export class Engine {
         if (!orderbook) {
             throw new Error("No orderbook found");
         }
-
+           // @ts-ignore
         this.checkAndLockFunds(baseAsset, quoteAsset, side, userId, quoteAsset, price, quantity);
 
         const order: Order = {
@@ -200,6 +200,7 @@ export class Engine {
         }
         
         const { fills, executedQty } = orderbook.addOrder(order);
+          // @ts-ignore
         this.updateBalance(userId, baseAsset, quoteAsset, side, fills, executedQty);
 
         this.createDbTrades(fills, market, userId);

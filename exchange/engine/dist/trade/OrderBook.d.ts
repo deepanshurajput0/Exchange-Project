@@ -46,7 +46,7 @@ export declare class Orderbook {
         asks: [string, string][];
     };
     getOpenOrders(userId: string): Order[];
-    cancelBid(order: Order): number | undefined;
-    cancelAsk(order: Order): number | undefined;
+    cancelBid(order: Order): number;
+    cancelAsk(order: Order): number;
 }
 //# sourceMappingURL=OrderBook.d.ts.map

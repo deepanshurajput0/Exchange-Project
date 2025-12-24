@@ -4,15 +4,17 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "npx tsc -b",
-    "start": "WITH_SNAPSHOT=true node dist/index.js",
-    "dev": "npm run build && WITH_SNAPSHOT=true npm run start"
+     "build": "tsc",
+  "start": "cross-env WITH_SNAPSHOT=true node dist/index.js",
+  "dev": "npm run build && cross-env WITH_SNAPSHOT=true npm run start",
+  "test": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cross-env": "^10.1.0",
     "fs": "^0.0.1-security",
     "redis": "^5.10.0",
     "typescript": "^5.9.3"

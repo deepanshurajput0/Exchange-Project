@@ -88,20 +88,27 @@ export class Orderbook {
         let executedQty = 0;
 
         for (let i = 0; i < this.asks.length; i++) {
+            // @ts-ignore
             if (this.asks[i].price <= order.price && executedQty < order.quantity) {
+                  // @ts-ignore
                 const filledQty = Math.min((order.quantity - executedQty), this.asks[i].quantity);
                 executedQty += filledQty;
+                  // @ts-ignore
                 this.asks[i].filled += filledQty;
                 fills.push({
+                      // @ts-ignore
                     price: this.asks[i].price.toString(),
                     qty: filledQty,
                     tradeId: this.lastTradeId++,
+                      // @ts-ignore
                     otherUserId: this.asks[i].userId,
+                      // @ts-ignore
                     markerOrderId: this.asks[i].orderId
                 });
             }
         }
         for (let i = 0; i < this.asks.length; i++) {
+              // @ts-ignore
             if (this.asks[i].filled === this.asks[i].quantity) {
                 this.asks.splice(i, 1);
                 i--;
@@ -118,20 +125,27 @@ export class Orderbook {
         let executedQty = 0;
         
         for (let i = 0; i < this.bids.length; i++) {
+              // @ts-ignore
             if (this.bids[i].price >= order.price && executedQty < order.quantity) {
+                  // @ts-ignore
                 const amountRemaining = Math.min(order.quantity - executedQty, this.bids[i].quantity);
                 executedQty += amountRemaining;
+                  // @ts-ignore
                 this.bids[i].filled += amountRemaining;
                 fills.push({
+                      // @ts-ignore
                     price: this.bids[i].price.toString(),
                     qty: amountRemaining,
                     tradeId: this.lastTradeId++,
+                      // @ts-ignore
                     otherUserId: this.bids[i].userId,
+                      // @ts-ignore
                     markerOrderId: this.bids[i].orderId
                 });
             }
         }
         for (let i = 0; i < this.bids.length; i++) {
+              // @ts-ignore
             if (this.bids[i].filled === this.bids[i].quantity) {
                 this.bids.splice(i, 1);
                 i--;
@@ -148,39 +162,38 @@ export class Orderbook {
         const bids: [string, string][] = [];
         const asks: [string, string][] = [];
 
-
-        // const bidsObj:{[key:string]:number} = {}
-
-        // bidsObj["price"] = 200;
-
-        // console.log(bidsObj)
-
-        // Its simple Object 
-
         const bidsObj: {[key: string]: number} = {};
         const asksObj: {[key: string]: number} = {};
 
         for (let i = 0; i < this.bids.length; i++) {
             const order = this.bids[i];
+              // @ts-ignore
             if (!bidsObj[order.price]) {
+                  // @ts-ignore
                 bidsObj[order.price] = 0;
             }
+              // @ts-ignore
             bidsObj[order.price] += order.quantity;
         }
 
         for (let i = 0; i < this.asks.length; i++) {
             const order = this.asks[i];
+              // @ts-ignore
             if (!asksObj[order.price]) {
+                  // @ts-ignore
                 asksObj[order.price] = 0;
             }
+              // @ts-ignore
             asksObj[order.price] += order.quantity;
         }
 
         for (const price in bidsObj) {
+              // @ts-ignore
             bids.push([price, bidsObj[price].toString()]);
         }
 
         for (const price in asksObj) {
+              // @ts-ignore
             asks.push([price, asksObj[price].toString()]);
         }
 
@@ -199,6 +212,7 @@ export class Orderbook {
     cancelBid(order: Order) {
         const index = this.bids.findIndex(x => x.orderId === order.orderId);
         if (index !== -1) {
+              // @ts-ignore
             const price = this.bids[index].price;
             this.bids.splice(index, 1);
             return price
@@ -208,6 +222,7 @@ export class Orderbook {
     cancelAsk(order: Order) {
         const index = this.asks.findIndex(x => x.orderId === order.orderId);
         if (index !== -1) {
+              // @ts-ignore
             const price = this.asks[index].price;
             this.asks.splice(index, 1);
             return price

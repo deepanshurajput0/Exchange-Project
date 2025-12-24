@@ -1,4 +1,4 @@
-import { Order } from "../trade/Orderbook";
+import type { Order } from "../trade/OrderBook.js";
 export declare const CREATE_ORDER = "CREATE_ORDER";
 export declare const CANCEL_ORDER = "CANCEL_ORDER";
 export declare const ON_RAMP = "ON_RAMP";
