@@ -1,5 +1,4 @@
-import { Client } from 'pg'
-
+import { Client } from 'pg';
 const client = new Client({
     user: 'your_user',
     host: 'localhost',
@@ -7,10 +6,8 @@ const client = new Client({
     password: 'your_password',
     port: 5433,
 });
-
 async function initializeDB() {
     await client.connect();
-
     await client.query(`
         DROP TABLE IF EXISTS "tata_prices";
         CREATE TABLE "tata_prices"(
@@ -22,7 +19,6 @@ async function initializeDB() {
         
         SELECT create_hypertable('tata_prices', 'time', 'price', 2);
     `);
-
     await client.query(`
         CREATE MATERIALIZED VIEW IF NOT EXISTS klines_1m AS
         SELECT
@@ -36,7 +32,6 @@ async function initializeDB() {
         FROM tata_prices
         GROUP BY bucket, currency_code;
     `);
-
     await client.query(`
         CREATE MATERIALIZED VIEW IF NOT EXISTS klines_1h AS
         SELECT
@@ -50,7 +45,6 @@ async function initializeDB() {
         FROM tata_prices
         GROUP BY bucket, currency_code;
     `);
-
     await client.query(`
         CREATE MATERIALIZED VIEW IF NOT EXISTS klines_1w AS
         SELECT
@@ -64,9 +58,8 @@ async function initializeDB() {
         FROM tata_prices
         GROUP BY bucket, currency_code;
     `);
-
     await client.end();
     console.log("Database initialized successfully");
 }
-
 initializeDB().catch(console.error);
+//# sourceMappingURL=seed-db.js.map

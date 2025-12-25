@@ -39,10 +39,12 @@ export class Engine {
         fs.writeFileSync("./snapshot.json", JSON.stringify(snapshotSnapshot));
     }
     process({ message, clientId }) {
+        console.log(this.balances);
         switch (message.type) {
             case CREATE_ORDER:
                 try {
-                    const { executedQty, fills, orderId } = this.createOrder(message.data.market, message.data.price, message.data.quantity, message.data.side, message.data.userId);
+                    const userId = String(message.data.userId);
+                    const { executedQty, fills, orderId } = this.createOrder(message.data.market, message.data.price, message.data.quantity, message.data.side, userId);
                     RedisManager.getInstance().sendToApi(clientId, {
                         type: "ORDER_PLACED",
                         payload: {
@@ -166,6 +168,7 @@ export class Engine {
     }
     // it will create order
     createOrder(market, price, quantity, side, userId) {
+        console.log("Create order debug", market, price, quantity, side, userId);
         const orderbook = this.orderbooks.find(o => o.ticker() === market);
         const baseAsset = market.split("_")[0];
         const quoteAsset = market.split("_")[1];
@@ -336,6 +339,7 @@ export class Engine {
         }
     }
     checkAndLockFunds(baseAsset, quoteAsset, side, userId, asset, price, quantity) {
+        console.log("Balances : ", this.balances.get("1"));
         if (side === "buy") {
             if ((this.balances.get(userId)?.[quoteAsset]?.available || 0) < Number(quantity) * Number(price)) {
                 throw new Error("Insufficient funds");
@@ -346,6 +350,7 @@ export class Engine {
             this.balances.get(userId)[quoteAsset].locked = this.balances.get(userId)?.[quoteAsset].locked + (Number(quantity) * Number(price));
         }
         else {
+            console.log(this.balances.get("1"));
             if ((this.balances.get(userId)?.[baseAsset]?.available || 0) < Number(quantity)) {
                 throw new Error("Insufficient funds");
             }

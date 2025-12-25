@@ -8,14 +8,23 @@ async function main() {
     await redisClient.connect();
     console.log("connected to redis");
 
-    while (true) {
-        const response = await redisClient.rPop("messages" as string)
-        if (!response) {
 
-        }  else {
-            engine.process(JSON.parse(response as string));
-        }        
-    }
+while (true) {
+  const response = await redisClient.rPop("messages");
+
+  if (!response) {
+    await new Promise(r => setTimeout(r, 10));
+    continue;
+  }
+
+  try {
+    engine.process(JSON.parse(response as string));
+  } catch (err) {
+    console.error("Engine error:", err);
+  }
+}
+
+
 
 }
 

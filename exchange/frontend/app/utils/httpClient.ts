@@ -1,3 +1,4 @@
+'use strict';
 import axios from "axios";
 import { Depth, KLine, Ticker, Trade } from "./types";
 
@@ -5,7 +6,9 @@ const BASE_URL = "http://localhost:3000/api/v1";
 
 export async function getTicker(market: string): Promise<Ticker> {
     const tickers = await getTickers();
+    console.log(tickers)
     const ticker = tickers.find(t => t.symbol === market);
+    
     if (!ticker) {
         throw new Error(`No ticker found for ${market}`);
     }
@@ -14,7 +17,7 @@ export async function getTicker(market: string): Promise<Ticker> {
 
 export async function getTickers(): Promise<Ticker[]> {
     const response = await axios.get(`${BASE_URL}/tickers`);
-    return response.data;
+    return response.data.tickers;
 }
 
 

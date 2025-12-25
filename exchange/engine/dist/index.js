@@ -8,9 +8,14 @@ async function main() {
     while (true) {
         const response = await redisClient.rPop("messages");
         if (!response) {
+            await new Promise(r => setTimeout(r, 10));
+            continue;
         }
-        else {
+        try {
             engine.process(JSON.parse(response));
+        }
+        catch (err) {
+            console.error("Engine error:", err);
         }
     }
 }

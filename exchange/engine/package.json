@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-     "build": "tsc",
+     "build": "npx tsc -b",
   "start": "cross-env WITH_SNAPSHOT=true node dist/index.js",
   "dev": "npm run build && cross-env WITH_SNAPSHOT=true npm run start",
   "test": "vitest"
