@@ -1,9 +1,9 @@
-import { WebSocket } from 'ws';
-import { User } from './User.js';
+import { WebSocket } from "ws";
+import { User } from "./User.js";
 export declare class UserManager {
     private static instance;
     private users;
-    constructor();
+    private constructor();
     static getInstance(): UserManager;
     addUser(ws: WebSocket): User;
     private registerOnClose;

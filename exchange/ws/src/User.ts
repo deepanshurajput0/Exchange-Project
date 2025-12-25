@@ -1,7 +1,7 @@
 import { WebSocket } from "ws";
-import type { OutgoingMessage } from "./types/out.js";
+import type{ OutgoingMessage } from "./types/out.js";
 import { SubscriptionManager } from "./SubscriptionManager.js";
-import { SUBSCRIBE, UNSUBSCRIBE, type IncomingMessage } from "./types/in.js";
+import{ SUBSCRIBE, UNSUBSCRIBE, type IncomingMessage } from "./types/in.js";
 
 export class User {
     private id: string;
@@ -35,10 +35,9 @@ export class User {
             }
 
             if (parsedMessage.method === UNSUBSCRIBE) {
-                
-            parsedMessage.params.forEach(s => SubscriptionManager.getInstance().
-            // @ts-ignore
-            unsubscribe(this.id, parsedMessage?.params[0]));
+                parsedMessage.params.forEach(s => SubscriptionManager.getInstance().
+                // @ts-ignore
+                unsubscribe(this.id, parsedMessage.params[0]));
             }
         });
     }

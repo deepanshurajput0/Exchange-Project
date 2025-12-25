@@ -1,6 +1,8 @@
+
+
 export type TickerUpdateMessage = {
-    type:'ticker',
-    data:{
+    type: "ticker",
+    data: {
         c?: string,
         h?: string,
         l?: string,
@@ -10,15 +12,15 @@ export type TickerUpdateMessage = {
         id: number,
         e: "ticker"
     }
-}
+} 
 
 export type DepthUpdateMessage = {
-    type:"Depth",
-    data:{
-        b:[string,string][],
-        a:[string,string][],
-        id:number,
-        e:"depth"
+    type: "depth",
+    data: {
+        b?: [string, string][],
+        a?: [string, string][],
+        id: number,
+        e: "depth"
     }
 }
 

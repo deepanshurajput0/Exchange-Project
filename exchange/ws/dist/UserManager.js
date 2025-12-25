@@ -1,13 +1,13 @@
-import { WebSocket } from 'ws';
-import { User } from './User.js';
-import { SubscriptionManager } from './SubscriptionManager.js';
+import { WebSocket } from "ws";
+import { User } from "./User.js";
+import { SubscriptionManager } from "./SubscriptionManager.js";
 export class UserManager {
     static instance;
     users = new Map();
     constructor() {
     }
     static getInstance() {
-        if (this.instance) {
+        if (!this.instance) {
             this.instance = new UserManager();
         }
         return this.instance;
@@ -22,7 +22,6 @@ export class UserManager {
     registerOnClose(ws, id) {
         ws.on("close", () => {
             this.users.delete(id);
-            //@ts-ignore
             SubscriptionManager.getInstance().userLeft(id);
         });
     }

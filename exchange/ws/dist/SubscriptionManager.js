@@ -1,5 +1,5 @@
-import { createClient } from 'redis';
-import { UserManager } from './UserManager.js';
+import { createClient } from "redis";
+import { UserManager } from "./UserManager.js";
 export class SubscriptionManager {
     static instance;
     subscriptions = new Map();

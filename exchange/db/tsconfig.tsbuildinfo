@@ -1,1 +1,1 @@
-{"root":["./src/cron.ts","./src/index.ts","./src/seed-db.ts","./src/types.ts"],"version":"5.9.3"}
+{"root":["./src/cron.ts","./src/index.ts","./src/seed-db.ts","./src/seedtrade.ts","./src/types.ts"],"version":"5.9.3"}

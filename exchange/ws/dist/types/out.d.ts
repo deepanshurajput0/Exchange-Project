@@ -1,5 +1,5 @@
 export type TickerUpdateMessage = {
-    type: 'ticker';
+    type: "ticker";
     data: {
         c?: string;
         h?: string;
@@ -12,10 +12,10 @@ export type TickerUpdateMessage = {
     };
 };
 export type DepthUpdateMessage = {
-    type: "Depth";
+    type: "depth";
     data: {
-        b: [string, string][];
-        a: [string, string][];
+        b?: [string, string][];
+        a?: [string, string][];
         id: number;
         e: "depth";
     };
