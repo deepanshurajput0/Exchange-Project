@@ -1,4 +1,18 @@
-# Guide to build Exchange Platform 
+# Full Stack Realtime Crypto Exchange
+
+
+## Realtime Klines Data Fetching 
+<img width="1920" height="1080" alt="Screenshot (366)" src="https://github.com/user-attachments/assets/f8fc4ad9-82d2-45a0-be30-cfe3a0299e0d" />
+
+## Realtime Orderbook with Websockets and redis pub subs
+<img width="1920" height="1080" alt="Screenshot (391)" src="https://github.com/user-attachments/assets/a4ceee7d-20de-4d75-b443-39cf7b151294" />
+
+<img width="1920" height="1080" alt="Screenshot (388)" src="https://github.com/user-attachments/assets/46d91886-e877-45a8-9ef1-0af4c0ae0c78" />
+
+
+
+
+## Guide to build Exchange Platform 
 
 ## This Guide Divided into 2 parts (Jargons, System Designs)
 
