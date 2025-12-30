@@ -10,11 +10,13 @@
 <img width="1920" height="1080" alt="Screenshot (388)" src="https://github.com/user-attachments/assets/46d91886-e877-45a8-9ef1-0af4c0ae0c78" />
 
 
+### High level Diagram of Exchange
 
+<img width="1493" height="770" alt="Screenshot 2025-12-30 093729" src="https://github.com/user-attachments/assets/0f703e6d-a829-4210-ba1b-641cbdee366d" />
 
 ## Guide to build Exchange Platform 
 
-## This Guide Divided into 2 parts (Jargons, System Designs)
+### This Guide Divided into 2 parts (Jargons, System Designs)
 
 ## Introduction
 
